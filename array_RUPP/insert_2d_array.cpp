@@ -27,16 +27,17 @@ void insert_two_d(int row, int col)
     cout << "Column: ";
     cin >> col;
     int array[row][col];
-    cout << "---------------------------------";
+    cout << "---------------------------------------------" << endl;
     cout << "Please insert each index of 2D array as you prefer" << endl;
 
     for (i = 0;i < row; i++)
     {
         for (j = 0; j < col; j++)
         {
-            cout << "\n2It's row " << i + 1 <<"column " << j + 1 << "array["<<i<<"]["<<j<<"] =";
+            cout << endl << "It's row " << i + 1 <<" column " << j + 1 << " = ";
             cin >> array[i][j];
         }
+        cout << "----------------------------------------";
     }
     
 }
