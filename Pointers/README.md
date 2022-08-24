@@ -1,3 +1,18 @@
+## Basic
+
+```Cpp
+
+    int a=10;
+    int *p = &a; // point to address a
+
+    cout<<a<<endl;
+    cout<<&a<<endl; // address of a
+    cout<<p<<endl; // storing address of a
+    cout<<&p<<endl; // address of p
+    cout<<*p<<endl; // p pointing on a
+
+```
+
 ## Why pointer
 
 Normal program can access only code section itself and stack but not heap. If we want program to access heap we need to use pointer.
@@ -25,3 +40,5 @@ advantage is it allow us to modify the size of the array
   p = new int[40];
 
 ```
+
+## Pointer Arithmetic
