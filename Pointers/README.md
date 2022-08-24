@@ -13,3 +13,15 @@ int A[5] = {1,2,3,4,5}; // located in stack
 int *p; // located in stack
 p = new int[5]; // located in heap
 ```
+
+But it also need to deallocated when you're not using it by using `delete []p`
+
+advantage is it allow us to modify the size of the array
+
+```Cpp
+  int *p = new int[20];
+
+  delete []p;
+  p = new int[40];
+
+```
