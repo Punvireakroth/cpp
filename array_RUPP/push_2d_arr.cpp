@@ -1,25 +1,26 @@
 #include <iostream>
 using namespace std;
 void insert_one_D();
+int user_input();
 
-
-int main (){
-   insert_one_D(); 
-}
-
-// Insert one D array 
-void insert_one_D()
-{
     int l = 0;
     int student_M3[3] = {};
-    int new_list[3][3] = {};
+    int new_list[3] = {};
     int list;
     int num = 0;
-    int i, j;
-    int display_list[] = {};
+    int i, j, k;
+    int display_list[3] = {};
+
+int main (){
+    user_input();
+}
+
+
+// user input 
+int user_input(){
     do 
     {
-        cout << "Row " << l + 1 << endl;
+        cout << "\nRow " << l + 1 << endl;
         for (int i = 0; i <= 2; i++)
         {
             cout << "Number: ";
@@ -27,38 +28,40 @@ void insert_one_D()
             list = student_M3[i] = num;
             for (j = 0; j <= 0 ; j++)
             {
-                new_list[i][j] = list;  
+                new_list[i] = list;   
             } 
-        }
+            for (k = 0; k<=2; k++){
+                display_list[k] = new_list[i];  
+            }
+	  	    cout<<"\t"<<display_list[i] << " ";
 
-        for(i=0;i<=2;i++)
-	    {
-	  	    for(j=0;j<=2;j++)
-	  	    {
-	  		    cout<<"\t"<<new_list[i][j];
-		    }
-		cout<<endl;
-	    } 
-        
+        }
         l++;
     }while (l < 3);
-    // for (int m = 0; m <= 2; m++)
-    //     {
-    //         for (int k = 0; k<=2; k++)
-    //         {
-    //             cout << new_list[k] << " ";
-    //         }  
-    //         cout << endl;
-    //     }
     
 }
-// Insert 2D array
 
-// void insert_two_D()
-// {
-//     for (int l = 0; l<=2;l++)
-//     {
-//         cout << "Row " << l + 1 << endl; 
-//         insert_one_D();
-//     }
-// }
+// Insert one D array 
+void insert_one_D()
+{
+    do 
+    {  
+        for (int i = 0; i <= 2; i++)
+        {
+            list = student_M3[i] = num;
+            for (j = 0; j <= 0 ; j++)
+            {
+                new_list[i] = list;  
+            } 
+            display_list[i] = new_list[i];
+        }
+        l++;
+        
+    }while (l < 3);
+
+    for(i=0;i<=2;i++)
+	{
+	  	cout<<"\t"<<display_list[i] << " ";
+	} 
+        
+}

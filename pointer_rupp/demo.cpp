@@ -4,7 +4,11 @@ using namespace std;
 
 int main()
 {
-    int num = 25;
-    int* value = &num;
-    cout<<*value<<endl;
+    double value[10];
+    double*pvalue;
+
+    pvalue++;
+
+    Day
+  
 }

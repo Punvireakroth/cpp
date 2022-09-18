@@ -19,7 +19,7 @@ int main()
     cout << endl << "Pick a lucky day " << "Enter Number between 1 to 7: ";
 
     cin >> choice;
-    cout << "========================================================="<<endl;
+    cout << "==================================================="<<endl;
     switch (choice)
     {
     case 1:
