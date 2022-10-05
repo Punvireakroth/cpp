@@ -1,25 +1,13 @@
 #include <iostream>
 using namespace std;
 
-class Student {
-  private:
-    // Private attribute
-    int score;
-
-  public:
-    // Setter
-    void setScore(int s) {
-      score = s;
-    }
-    // Getter
-    int getScore() {
-      return score;
-    }
-};
+// យើងមាន Fucntion ទទួលParameter name មួយ​ដែលយើងនិងប្រើparameter និងនៅក្នុងfunction មួយនិង 
+string printMyName(string name){
+    cout << "Hello " << name;
+}
 
 int main() {
-  Student myObj;
-  myObj.setScore(50000);
-  cout << myObj.getScore();
-  return 0;
+    Flower water_lily;
+
+    water_lily.mju_broalit();
 }
