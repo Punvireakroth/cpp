@@ -12,6 +12,14 @@ int main()
     // acceleration due to gravity (pixel/frame)/frame
     const int gravity{1};
 
+    Texture2D scarfy = LoadTexture("textures/scarfy.png");
+    Rectangle scarfyRec;
+    Vector2 scarfyPos;
+    
+
+    bool isOnAir; 
+    const int jumpVelocity = 20;
+
     //rect dimension 
     const int width{50};
     const int height{80};
@@ -19,6 +27,7 @@ int main()
     int posY{windowHeight - height};
     int velocity{0};
     SetTargetFPS(60);
+
 
 
     while (!WindowShouldClose())
@@ -32,16 +41,21 @@ int main()
         {
             // ractangle is on the ground 
             velocity = 0;
+            isOnAir = false;
         }else{
             // rectangle is in the air 
             // apply gravity
             velocity += gravity;
+            isOnAir = true;
         }
 
 
         if(IsKeyPressed(KEY_SPACE))
         {
-            velocity -= 10;
+            if(isOnAir == false)
+            {
+                velocity -= jumpVelocity;
+            }
         }
 
         
