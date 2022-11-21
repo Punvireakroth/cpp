@@ -9,22 +9,31 @@ int main()
     // initialize the window
     InitWindow(windowWidth, windowHeight, "Runner");
 
-    // acceleration due to gravity (pixel/frame)/frame
-    const int gravity{1};
+    // acceleration due to gravity (pixel/s)/s
+    const int gravity{1500};
 
-    Texture2D scarfy = LoadTexture("textures/scarfy.png");
+    Texture2D scarfy = LoadTexture("textures/pain.png");
     Rectangle scarfyRec;
+    scarfyRec.width = scarfy.width/6;
+    scarfyRec.height = scarfy.height;
+    scarfyRec.x = 0;
+    scarfyRec.y = 0;
     Vector2 scarfyPos;
-    
+    scarfyPos.x = (windowWidth / 2) - scarfyRec.width/2;
+    scarfyPos.y = windowHeight - scarfyRec.height;
+
+    // animation frame 
+    int frame{};
 
     bool isOnAir; 
-    const int jumpVelocity = 20;
+    // jump velocity (pixels/second)
+    const int jumpVelocity = 700;
 
-    //rect dimension 
-    const int width{50};
-    const int height{80};
+    // time between next animation
+    const float updateTime = 1.0/12.0;
+    float runningTime{};
 
-    int posY{windowHeight - height};
+
     int velocity{0};
     SetTargetFPS(60);
 
@@ -32,12 +41,14 @@ int main()
 
     while (!WindowShouldClose())
     {
+        // Delta time (time since last frame)
+        const float dT{GetFrameTime()};
         // Start drawing 
         BeginDrawing();
         ClearBackground(WHITE);
         
         // check if sprite on the ground 
-        if(posY >= windowHeight - height)
+        if(scarfyPos.y >= windowHeight - scarfyRec.height)
         {
             // ractangle is on the ground 
             velocity = 0;
@@ -45,7 +56,7 @@ int main()
         }else{
             // rectangle is in the air 
             // apply gravity
-            velocity += gravity;
+            velocity += gravity * dT;
             isOnAir = true;
         }
 
@@ -58,12 +69,28 @@ int main()
             }
         }
 
+        // update velocity
+        scarfyPos.y += velocity * dT;
+
+        // update running time
+        runningTime += dT;
+        if(runningTime >= updateTime){
+            runningTime = 0.0;
+             //update animation frame
+            scarfyRec.x = frame * scarfyRec.width;
+            frame++;
+            if(frame > 5){
+                frame = 0;
+            }
+        }
+       
+
         
-        posY += velocity;
-        // Draw a rectangle
-        DrawRectangle(windowWidth/2, posY, width, height, BLUE);
+        //draw texture rect 
+        DrawTextureRec(scarfy, scarfyRec, scarfyPos, WHITE);
         // Stop drawing 
         EndDrawing();
     }
+    UnloadTexture(scarfy);
     CloseWindow();
 }
