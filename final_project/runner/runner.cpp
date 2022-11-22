@@ -12,6 +12,8 @@ int main()
     // acceleration due to gravity (pixel/s)/s
     const int gravity{1500};
 
+
+    // Load texture of Pain Naruto
     Texture2D scarfy = LoadTexture("textures/pain.png");
     Rectangle scarfyRec;
     scarfyRec.width = scarfy.width/6;
@@ -83,7 +85,6 @@ int main()
                 frame = 0;
             }
         }
-       
 
         
         //draw texture rect 
