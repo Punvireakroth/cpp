@@ -11,7 +11,13 @@ int main()
 
     // acceleration due to gravity (pixel/s)/s
     const int gravity{1500};
+    // Load Obstagcle 
+    Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
+    Rectangle nebRec{0.0,0.0,nebula.width/8, nebula.height/8}; //x, y, width, height 
+    Vector2 nebPos{windowWidth, windowHeight - nebRec.height}; //x, y\
 
+    // nebula X velocity (pixel per second )
+    int nebVel{-600};
 
     // Load texture of Pain Naruto
     Texture2D scarfy = LoadTexture("textures/pain.png");
@@ -70,6 +76,8 @@ int main()
                 velocity -= jumpVelocity;
             }
         }
+        // update nebula position
+        nebPos.x += nebVel * dT;
 
         // update velocity
         scarfyPos.y += velocity * dT;
@@ -83,15 +91,20 @@ int main()
             frame++;
             if(frame > 5){
                 frame = 0;
+            }else if(isOnAir == true){
+                // do not update run animation frame when sprite is on the air
+                scarfyRec.x = scarfyRec.width;
             }
         }
 
-        
-        //draw texture rect 
+        // draw nebula obstagcle
+        DrawTextureRec(nebula, nebRec, nebPos, WHITE);
+        //draw texture pain naruto
         DrawTextureRec(scarfy, scarfyRec, scarfyPos, WHITE);
         // Stop drawing 
         EndDrawing();
     }
     UnloadTexture(scarfy);
+    UnloadTexture(nebula);
     CloseWindow();
 }
