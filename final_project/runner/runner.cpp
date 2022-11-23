@@ -1,5 +1,7 @@
 #include "raylib.h"
 
+
+
 int main()
 {
     // Window width and height
@@ -13,11 +15,18 @@ int main()
     const int gravity{1500};
     // Load Obstagcle 
     Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
-    Rectangle nebRec{0.0,0.0,nebula.width/8, nebula.height/8}; //x, y, width, height 
-    Vector2 nebPos{windowWidth, windowHeight - nebRec.height}; //x, y\
+    Rectangle nebRec{0.0, 0.0, nebula.width/8.0, nebula.height/8.0}; //x, y, width, height 
+    Vector2 nebPos{windowWidth, windowHeight - nebRec.height}; //x = width, y = height
+
+    Rectangle neb2Rec{0.0, 0.0, nebula.width/8.0, nebula.height/8.0};
+    Vector2 neb2Pos{windowWidth + 300, windowHeight - nebRec.height};
+
+    int neb2Frame{};
+    const float neb2UpdateTime{1.0/16.0};
+    float neb2RunningTime;
 
     // nebula X velocity (pixel per second )
-    int nebVel{-600};
+    int nebVel{-400};
 
     // Load texture of Pain Naruto
     Texture2D scarfy = LoadTexture("textures/pain.png");
@@ -40,7 +49,10 @@ int main()
     // time between next animation
     const float updateTime = 1.0/12.0;
     float runningTime{};
-
+    //nebula animation variable
+    int nebFrame{};
+    const float nebUpdateTime{1.0/12.0};
+    float nebRunningTime{};
 
     int velocity{0};
     SetTargetFPS(60);
@@ -82,6 +94,9 @@ int main()
         // update velocity
         scarfyPos.y += velocity * dT;
 
+        // update the second nebula position
+        neb2Pos.x += nebVel * dT;
+
         // update running time
         runningTime += dT;
         if(runningTime >= updateTime){
@@ -97,8 +112,32 @@ int main()
             }
         }
 
+        //update animation frame of nebula
+        nebRunningTime += dT;
+        if(nebRunningTime >= nebUpdateTime){
+            nebRunningTime = 0.0;
+            nebRec.x = nebFrame * nebRec.width;
+            nebFrame++;
+            if(nebFrame > 7){
+                nebFrame = 0;
+            }
+        }
+
+        //update animation frame of nebula
+        neb2RunningTime += dT;
+        if(neb2RunningTime >= neb2UpdateTime){
+            neb2RunningTime = 0.0;
+            neb2Rec.x = neb2Frame * neb2Rec.width;
+            neb2Frame++;
+            if(neb2Frame > 7){
+                neb2Frame = 0;
+            }
+        }
+
         // draw nebula obstagcle
         DrawTextureRec(nebula, nebRec, nebPos, WHITE);
+        // draw second nebula 
+        DrawTextureRec(nebula, neb2Rec, neb2Pos, RED);
         //draw texture pain naruto
         DrawTextureRec(scarfy, scarfyRec, scarfyPos, WHITE);
         // Stop drawing 
