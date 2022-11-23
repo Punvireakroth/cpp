@@ -13,39 +13,40 @@ struct AnimData
 int main()
 {
     // Window width and height
-    const int windowWidth{1400};
-    const int windowHeight{720};
 
+    int windowDimensions[2];
+    windowDimensions[0] = 1400;
+    windowDimensions[1] = 720;
+
+   
     // initialize the window
-    InitWindow(windowWidth, windowHeight, "Runner");
+    InitWindow(windowDimensions[0], windowDimensions[1], "Runner");
 
     // acceleration due to gravity (pixel/s)/s
     const int gravity{1500};
-    // Load Obstagcle 
+    // Load Obstacle 
     Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
 
-    // AnimData for nebula
-    AnimData nebData{
-        {0.0, 0.0, nebula.width/8.0, nebula.height/8.0},//x, y, width, height (Rec)
-        {windowWidth, windowHeight - nebula.height/8}, // Vector2 x = width, y = height
-        0, // frame
-        1.0/2.0, // update time 
-        0 //Running time
-     };
+    const int sizeOfNebulea{6};
+    AnimData nebulea[sizeOfNebulea]{};
 
-    
-
-    AnimData neb2Data{
-        {0.0, 0.0, nebula.width/8.0, nebula.height/8.0}, // Rectangle x , y , width , height
-        {windowWidth + 300, windowHeight - nebData.rec.height}, // Vector
-        0,
-        1.0/16.0,
-        0.0
-    };
+    for(int i = 0; i < sizeOfNebulea; i++)
+    {
+        nebulea[i].rec.x = 0.0;
+        nebulea[i].rec.y = 0.0;
+        nebulea[i].rec.width = nebula.width/8;
+        nebulea[i].rec.height = nebula.height/8;
+        nebulea[i].pos.y = windowDimensions[1] - nebula.height/8;
+        nebulea[i].frame = 0;
+        nebulea[i].runningTime = 0.0;
+        nebulea[i].updateTime = 0.0;
+        // set position of nebula 
+        nebulea[i].pos.x = windowDimensions[0] + i * 300;
+    }
     
 
     // nebula X velocity (pixel per second )
-    int nebVel{-400};
+    int nebVel{-300};
 
     // Load texture of Pain Naruto
     Texture2D scarfy = LoadTexture("textures/pain.png");
@@ -56,8 +57,8 @@ int main()
     scarfyData.rec.height = scarfy.height;
     scarfyData.rec.x = 0;
     scarfyData.rec.y = 0;
-    scarfyData.pos.x = windowWidth/2 - scarfyData.rec.width/2;
-    scarfyData.pos.y  = windowHeight - scarfyData.rec.height;
+    scarfyData.pos.x = windowDimensions[0]/2 - scarfyData.rec.width/2;
+    scarfyData.pos.y  = windowDimensions[1] - scarfyData.rec.height;
     scarfyData.frame = 0;
     scarfyData.updateTime = 1.0/12.0;
     scarfyData.runningTime = 0.0;
@@ -89,7 +90,7 @@ int main()
         ClearBackground(WHITE);
         
         // check if sprite on the ground 
-        if(scarfyData.pos.y >= windowHeight - scarfyData.rec.height)
+        if(scarfyData.pos.y >= windowDimensions[1] - scarfyData.rec.height)
         {
             // ractangle is on the ground 
             velocity = 0;
@@ -109,14 +110,13 @@ int main()
                 velocity -= jumpVelocity;
             }
         }
-        // update nebula position
-        nebData.pos.x += nebVel * dT;
+        for(int i = 0; i < sizeOfNebulea; i++){
+            // update nebula's position
+            nebulea[i].pos.x += nebVel * dT;
+        }
 
         // update velocity
         scarfyData.pos.y += velocity * dT;
-
-        // update the second nebula position
-        neb2Data.pos.x += nebVel * dT;
 
         // update running time
         scarfyData.runningTime += dT;
@@ -133,32 +133,25 @@ int main()
             }
         }
 
-        //update animation frame of nebula
-        nebData.runningTime += dT;
-        if(nebData.runningTime >= nebData.updateTime){
-            nebRunningTime = 0.0;
-            nebData.rec.x = nebData.frame * nebData.rec.width;
-            nebData.frame++;
-            if(nebData.frame > 7){
-                nebData.frame = 0;
+        for(int i = 0; i < sizeOfNebulea; i++){
+             //update animation frame of nebula
+            nebulea[i].runningTime += dT;
+            if(nebulea[i].runningTime >= nebulea[i].updateTime){
+                nebulea[i].runningTime = 0.0;
+                nebulea[i].rec.x = nebulea[i].frame * nebulea[i].rec.width;
+                nebulea[i].frame++;
+                    if(nebulea[i].frame > 7){
+                        nebulea[i].frame = 0;
+                    }
             }
         }
 
-        //update animation frame of nebula
-        neb2Data.runningTime += dT;
-        if(neb2Data.runningTime >= neb2Data.updateTime){
-            neb2Data.runningTime = 0.0;
-            neb2Data.rec.x = neb2Data.frame * neb2Data.rec.width;
-            neb2Data.frame++;
-            if(neb2Data.frame > 7){
-                neb2Data.frame = 0;
-            }
+       
+        for(int i = 0; i < sizeOfNebulea; i++){
+            // draw obstacle
+            DrawTextureRec(nebula, nebulea[i].rec, nebulea[i].pos, WHITE);
         }
-
-        // draw nebula obstagcle
-        DrawTextureRec(nebula, nebData.rec, nebData.pos, WHITE);
-        // draw second nebula 
-        DrawTextureRec(nebula, neb2Data.rec, neb2Data.pos, RED);
+       
         //draw texture pain naruto
         DrawTextureRec(scarfy, scarfyData.rec, scarfyData.pos, WHITE);
         // Stop drawing 
