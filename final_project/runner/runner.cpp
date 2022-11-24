@@ -218,7 +218,11 @@ int main()
 
         if(collision){
             // hit obstacle lose the game
-        }else{
+            DrawText("Game Over!", windowDimensions[0]/3, windowDimensions[1]/2, 80, RED);
+        }else if(scarfyData.pos.x >= finishLine){
+            DrawText("You Win", windowDimensions[0]/3, windowDimensions[1]/2, 80, GREEN);
+        }
+        else{
             for(int i = 0; i < sizeOfNebulea; i++){
             // draw obstacle
             DrawTextureRec(nebula, nebulea[i].rec, nebulea[i].pos, WHITE);
